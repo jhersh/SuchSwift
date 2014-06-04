@@ -10,10 +10,11 @@ import Foundation
 import UIKit
 
 let SuchAnimateTime : CGFloat = 0.5
+let SuchAnimateInterval : CGFloat = 0.3
 
 extension UIView {
     var timer : NSTimer? {
-        return NSTimer(timeInterval: SuchAnimateTime, target: self, selector: Selector("SuchAddLabel"), userInfo: nil, repeats: true)
+        return NSTimer(timeInterval: SuchAnimateInterval, target: self, selector: Selector("SuchAddLabel"), userInfo: nil, repeats: true)
     }
     
     func SuchStartWow() {
