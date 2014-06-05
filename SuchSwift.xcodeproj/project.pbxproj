@@ -27,7 +27,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4769D25761234034A05590FA /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E308119193FAF2A00359F9D /* SuchSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuchSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E30811D193FAF2A00359F9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5E30811E193FAF2A00359F9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,7 +61,6 @@
 		431DC60301374A2C82D9730F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4769D25761234034A05590FA /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
