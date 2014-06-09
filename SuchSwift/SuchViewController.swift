@@ -16,7 +16,7 @@ class SuchViewController : UIViewController {
         
         let dogeImage = UIImageView(image: UIImage(named: "doge.jpg"))
         dogeImage.center = self.view.center
-        dogeImage.alpha = 0.7
+        dogeImage.alpha = 0.5
         self.view.addSubview(dogeImage)
 
         self.view.SuchStartWow()

@@ -9,12 +9,16 @@
 import Foundation
 import UIKit
 
-let SuchAnimateTime : CGFloat = 0.5
+let SuchAnimateTime : CGFloat = 0.6
 let SuchAnimateInterval : CGFloat = 0.3
 
 extension UIView {
     var timer : NSTimer? {
-        return NSTimer(timeInterval: SuchAnimateInterval, target: self, selector: Selector("SuchAddLabel"), userInfo: nil, repeats: true)
+        return NSTimer.scheduledTimerWithTimeInterval(SuchAnimateInterval,
+            target: self,
+            selector: Selector("SuchAddLabel"),
+            userInfo: nil,
+            repeats: true)
     }
     
     func SuchStartWow() {
@@ -80,7 +84,7 @@ class SuchSwift {
     class func SuchRandomText() -> String {
         let text = ["wow", "so swift", "such xcode", "very 8", "much recompile", "so moscone", "very federighi"]
         
-        return text[Int(arc4random_uniform(UInt32(text.count)))]
+        return text[Int(arc4random_uniform(UInt32(countElements(text))))]
     }
     
     class func SuchRandomLabel() -> UILabel {
