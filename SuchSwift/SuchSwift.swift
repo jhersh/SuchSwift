@@ -49,7 +49,7 @@ extension UIView {
         
         UIView.animateWithDuration(SuchAnimateTime,
             delay: 0.0,
-            options: UIViewAnimationOptions.CurveEaseInOut,
+            options: .CurveEaseInOut,
             animations: animations,
             completion: {
                 completed in
