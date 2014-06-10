@@ -1,5 +1,5 @@
 //
-//  AppDelegate.swift
+//  SuchAppDelegate.swift
 //  SuchSwift
 //
 //  Created by Jonathan Hersh on 6/4/14.
