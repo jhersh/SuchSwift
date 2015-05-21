@@ -9,11 +9,11 @@
 import Foundation
 import UIKit
 
-let SuchAnimateTime : CGFloat = 0.6
-let SuchAnimateInterval : CGFloat = 0.3
+let SuchAnimateTime : NSTimeInterval = 0.6
+let SuchAnimateInterval : NSTimeInterval = 0.3
 
 extension UIView {
-    var timer : NSTimer? {
+    var timer : NSTimer {
         return NSTimer.scheduledTimerWithTimeInterval(SuchAnimateInterval,
             target: self,
             selector: Selector("SuchAddLabel"),
@@ -26,7 +26,7 @@ extension UIView {
     }
     
     func SuchStopWow() {
-        timer?.invalidate()
+        timer.invalidate()
     }
     
     func SuchAddLabel() {
@@ -49,7 +49,7 @@ extension UIView {
         
         UIView.animateWithDuration(SuchAnimateTime,
             delay: 0.0,
-            options: .CurveEaseInOut,
+            options: UIViewAnimationOptions.CurveEaseInOut,
             animations: animations,
             completion: {
                 completed in
@@ -66,7 +66,7 @@ extension CGFloat {
 
 extension UIColor {
     class func SuchRandomDarkColor() -> UIColor {
-        return UIColor(red: CGFloat.SuchRandomColorFloat(),
+        return self(red: CGFloat.SuchRandomColorFloat(),
             green: CGFloat.SuchRandomColorFloat(),
             blue: CGFloat.SuchRandomColorFloat(),
             alpha: 1.0)
@@ -75,7 +75,7 @@ extension UIColor {
 
 class SuchSwift {
     class func SuchAttributedLabel(text : String) -> NSAttributedString {
-        let attributes = [ NSFontAttributeName : UIFont(name: "Comic Sans MS", size: 15),
+        let attributes = [ NSFontAttributeName : UIFont(name: "Comic Sans MS", size: 15)!,
                            NSForegroundColorAttributeName : UIColor.SuchRandomDarkColor() ]
         
         return NSAttributedString(string: text, attributes: attributes )
@@ -84,7 +84,7 @@ class SuchSwift {
     class func SuchRandomText() -> String {
         let text = ["wow", "so swift", "such xcode", "very 8", "much recompile", "so moscone", "very federighi"]
         
-        return text[Int(arc4random_uniform(UInt32(countElements(text))))]
+        return text[Int(arc4random_uniform(UInt32(count(text))))]
     }
     
     class func SuchRandomLabel() -> UILabel {
