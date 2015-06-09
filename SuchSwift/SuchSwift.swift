@@ -30,7 +30,7 @@ extension UIView {
     }
     
     func SuchAddLabel() {
-        let label = SuchSwift.SuchRandomLabel()
+        let label = UILabel.SuchRandomLabel()
         
         self.addSubview(label)
         
@@ -42,7 +42,7 @@ extension UIView {
             label.frame.size.width,
             label.frame.size.height)
         
-        var animations : () -> () = {
+        let animations : () -> () = {
             label.alpha = 0.0
             label.transform = CGAffineTransformMakeScale(3.0, 3.0)
         }
@@ -73,18 +73,20 @@ extension UIColor {
     }
 }
 
-class SuchSwift {
-    class func SuchAttributedLabel(text : String) -> NSAttributedString {
-        let attributes = [ NSFontAttributeName : UIFont(name: "Comic Sans MS", size: 15)!,
-                           NSForegroundColorAttributeName : UIColor.SuchRandomDarkColor() ]
+extension UILabel {
+    private class func SuchAttributedLabel(text : String) -> NSAttributedString {
+        let attributes = [
+            NSFontAttributeName : UIFont(name: "Comic Sans MS", size: 15)!,
+            NSForegroundColorAttributeName : UIColor.SuchRandomDarkColor()
+        ]
         
         return NSAttributedString(string: text, attributes: attributes )
     }
     
-    class func SuchRandomText() -> String {
+    private class func SuchRandomText() -> String {
         let text = ["wow", "so swift", "such xcode", "very 8", "much recompile", "so moscone", "very federighi"]
         
-        return text[Int(arc4random_uniform(UInt32(count(text))))]
+        return text[Int(arc4random_uniform(UInt32(text.count)))]
     }
     
     class func SuchRandomLabel() -> UILabel {
