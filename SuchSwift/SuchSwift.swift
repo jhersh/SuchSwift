@@ -6,95 +6,128 @@
 //  Copyright (c) 2014 JH. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import ObjectiveC
 
-let SuchAnimateTime : NSTimeInterval = 0.6
-let SuchAnimateInterval : NSTimeInterval = 0.3
+private let SuchAnimateTime: NSTimeInterval = 0.95
+private let SuchAnimateInterval: NSTimeInterval = 0.25
 
-extension UIView {
-    var timer : NSTimer {
-        return NSTimer.scheduledTimerWithTimeInterval(SuchAnimateInterval,
-            target: self,
-            selector: Selector("SuchAddLabel"),
-            userInfo: nil,
-            repeats: true)
-    }
-    
-    func SuchStartWow() {
-        NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
-    }
-    
-    func SuchStopWow() {
-        timer.invalidate()
-    }
-    
-    func SuchAddLabel() {
-        let label = UILabel.SuchRandomLabel()
-        
-        self.addSubview(label)
-        
-        let origin = CGPoint(x: 30 + CGFloat(arc4random_uniform(UInt32(self.frame.size.width - 90))),
-            y: CGFloat(arc4random_uniform(UInt32(self.frame.size.height - 30))))
-        
-        label.frame = CGRectMake(origin.x,
-            origin.y,
-            label.frame.size.width,
-            label.frame.size.height)
-        
-        let animations : () -> () = {
-            label.alpha = 0.0
-            label.transform = CGAffineTransformMakeScale(3.0, 3.0)
-        }
-        
-        UIView.animateWithDuration(SuchAnimateTime,
-            delay: 0.0,
-            options: UIViewAnimationOptions.CurveEaseInOut,
-            animations: animations,
-            completion: {
-                completed in
-                label.removeFromSuperview()
-        })
-    }
-}
+private var suchTimerKey: UInt8 = 0
 
-extension CGFloat {
+private extension CGFloat {
     static func SuchRandomColorFloat() -> CGFloat {
-        return CGFloat(30 + arc4random_uniform(185)) / 255.0
+        return self.init(10 + arc4random_uniform(165)) / 255.0
     }
 }
 
-extension UIColor {
-    class func SuchRandomDarkColor() -> UIColor {
-        return self(red: CGFloat.SuchRandomColorFloat(),
+private extension UIColor {
+    class func SuchRandomColor() -> UIColor {
+        return self.init(red: CGFloat.SuchRandomColorFloat(),
             green: CGFloat.SuchRandomColorFloat(),
             blue: CGFloat.SuchRandomColorFloat(),
             alpha: 1.0)
     }
 }
 
-extension UILabel {
-    private class func SuchAttributedLabel(text : String) -> NSAttributedString {
+private extension NSAttributedString {
+    class func SuchAttributedString(text: String) -> NSAttributedString {
         let attributes = [
-            NSFontAttributeName : UIFont(name: "Comic Sans MS", size: 15)!,
-            NSForegroundColorAttributeName : UIColor.SuchRandomDarkColor()
+            NSFontAttributeName : UIFont(name: "Comic Sans MS", size: 16)!,
+            NSForegroundColorAttributeName : UIColor.SuchRandomColor()
         ]
-        
-        return NSAttributedString(string: text, attributes: attributes )
+
+        return self.init(string: text, attributes: attributes)
     }
-    
+}
+
+extension UILabel {
+    private static let text = ["wow", "wow", "wow", "so swift", "such xcode", "very 8", "much recompile", "so moscone", "very federighi"]
+
     private class func SuchRandomText() -> String {
-        let text = ["wow", "so swift", "such xcode", "very 8", "much recompile", "so moscone", "very federighi"]
-        
         return text[Int(arc4random_uniform(UInt32(text.count)))]
     }
-    
+
     class func SuchRandomLabel() -> UILabel {
         let label = UILabel()
-        label.attributedText = SuchAttributedLabel(SuchRandomText())
+        label.attributedText = NSAttributedString.SuchAttributedString(SuchRandomText())
         label.backgroundColor = UIColor.clearColor()
         label.sizeToFit()
-        
+
         return label
+    }
+}
+
+extension UIView {
+    
+    private var timer: NSTimer? {
+        get {
+            return objc_getAssociatedObject(self, &suchTimerKey) as? NSTimer
+        }
+        set {
+            objc_setAssociatedObject(self, &suchTimerKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+
+    public var isWow: Bool {
+        return timer?.valid ?? false
+    }
+
+    public func SuchStartWow() {
+        if isWow {
+            return
+        }
+
+        let timer = NSTimer(timeInterval: SuchAnimateInterval,
+            target: self,
+            selector: Selector("SuchAddLabel"),
+            userInfo: nil,
+            repeats: true)
+
+        self.timer = timer
+
+        NSOperationQueue.mainQueue().addOperationWithBlock {
+            NSRunLoop.currentRunLoop().addTimer(timer, forMode: NSRunLoopCommonModes)
+        }
+    }
+    
+    public func SuchStopWow() {
+        if !isWow {
+            return
+        }
+
+        NSOperationQueue.mainQueue().addOperationWithBlock {
+            self.timer!.invalidate()
+            self.timer = nil
+        }
+    }
+
+    func SuchAddLabel() {
+        let label = UILabel.SuchRandomLabel()
+
+        addSubview(label)
+
+        let origin = CGPoint(x: 30 + CGFloat(arc4random_uniform(UInt32(frame.size.width - 90))),
+            y: CGFloat(arc4random_uniform(UInt32(frame.size.height - 30))))
+
+        label.frame = CGRectMake(origin.x,
+            origin.y,
+            label.frame.size.width,
+            label.frame.size.height)
+
+        let animations: () -> () = {
+            label.alpha = 0.0
+            label.transform = CGAffineTransformMakeScale(3.0, 3.0)
+        }
+        
+        let completion: (Bool) -> () = {
+            _ in
+            label.removeFromSuperview()
+        }
+
+        UIView.animateWithDuration(SuchAnimateTime,
+            delay: 0.0,
+            options: UIViewAnimationOptions.CurveEaseIn,
+            animations: animations,
+            completion: completion)
     }
 }
