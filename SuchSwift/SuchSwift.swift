@@ -64,7 +64,7 @@ extension UIView {
             return objc_getAssociatedObject(self, &suchTimerKey) as? NSTimer
         }
         set {
-            objc_setAssociatedObject(self, &suchTimerKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+            objc_setAssociatedObject(self, &suchTimerKey, newValue, .OBJC_ASSOCIATION_RETAIN)
         }
     }
 
@@ -73,7 +73,8 @@ extension UIView {
     }
 
     public func SuchStartWow() {
-        if isWow {
+        
+        guard !isWow else {
             return
         }
 
@@ -91,17 +92,19 @@ extension UIView {
     }
     
     public func SuchStopWow() {
-        if !isWow {
+        
+        guard isWow else {
             return
         }
 
         NSOperationQueue.mainQueue().addOperationWithBlock {
-            self.timer!.invalidate()
+            self.timer?.invalidate()
             self.timer = nil
         }
     }
 
     func SuchAddLabel() {
+        
         let label = UILabel.SuchRandomLabel()
 
         addSubview(label)
@@ -114,12 +117,12 @@ extension UIView {
             label.frame.size.width,
             label.frame.size.height)
 
-        let animations: () -> () = {
+        let animations = {
             label.alpha = 0.0
             label.transform = CGAffineTransformMakeScale(3.0, 3.0)
         }
         
-        let completion: (Bool) -> () = {
+        let completion: (Bool) -> Void = {
             _ in
             label.removeFromSuperview()
         }
